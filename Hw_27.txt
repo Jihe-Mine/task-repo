@@ -1,0 +1,50 @@
+1․ Գրել Triangle class, որը․
+   - __init__() -ում կընդունի եռանկյան կողմերը և կստուգի արդյոք նման կողմերով եռանկյուն գոյություն ունի թե ոչ,
+     եթե կողմերը սխալ են տրված կվերադարձնի Error համապատասխան տեքստով,
+   - կունենա մեթոդ, որը կվերադարձնի եռանկյան կողմերը,
+   - կունենա մեթոդ, որը կվերադարձնի եռանկյան պարագիծը,
+   - կունենա մեթոդ, որը կվերադարձնի եռանկյան մակերեսը,
+   - կունենա մեթոդ, որը կվերադարձնի արդյոք եռանկյունը հավասարակողմ է, հավասարասրուն, թե անկանոն (կողմերը իրար = չեն)։
+
+class Triangle:
+    def __init__(self, side_a, side_b, side_c):
+        self.side_a = side_a
+        self.side_b = side_b
+        self.side_c = side_c
+        try:
+            (side_a + side_b) < side_c and (side_a + side_c) < side_b \
+            and (side_b + side_c) < side_a
+
+        except ValueError:
+             print('There is not such a triangle.')
+
+
+    def sides(self):
+        return f"a = {self.side_a}, b = {self.side_b}, c = {self.side_c}"
+
+    def perimeter(self):
+        return self.side_a + self.side_b + self.side_c
+
+    def surface(self):
+        s = (self.side_a + self.side_b + self.side_c) / 2
+        heron_f = sqrt(s * (s-self.side_a) * (s - self.side_b) * (s - self.side_c) )
+        return heron_f
+
+    def type_t(self):
+        if self.side_a == self.side_b or self.side_a == self.side_c \
+            or self.side_b == self.side_c:
+            return f"The triangle is isosceles."
+        elif self.side_a == self.side_b == self.side_c:
+            return f"The triangle is equilateral."
+        else:
+            return f"The triangle is scalene."
+
+triangle1 = Triangle(3, 5, 7)
+triangle2 = Triangle(4, 5, 4)
+triangle3 = Triangle(7, 7, 7)
+print(triangle1.sides())
+print(triangle2.perimeter())
+print(triangle1.type_t())
+print(triangle2.type_t())
+print(triangle3.type_t())
+print(triangle2.surface())
