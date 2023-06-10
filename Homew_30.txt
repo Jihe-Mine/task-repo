@@ -1,0 +1,134 @@
+1․ Գրել MyShows class, որը․
+   - __init__ ում կստանա 
+     -- սերիալի անունը (պետք է լինի տեքստ), 
+     -- հարթակը, որտեղ ցուցադրվում է սերիալը (պետք է լինի տեքստ), 
+     -- առաջին սերիան դուրս գալու տարեթիվը (պետք է լինի ամբողջ թիվ),
+     -- սերիայի համարը, որը դիտում է օգտատերը (որ սերիային է հասել) (պետք է լինի ամբողջ թիվ), default արժեքը պետք է լինի 0,
+     -- օգտատիրոջ դրած գնահատականը (պետք է լինի ամբողջ թիվ 1-10 միջակայքում), default արժեքը պետք է լինի None,
+     -- գլխավոր դերասանների ցանկը (պետք է լինի լիստ),
+   - բոլոր ատրիբուտները կլինեն private,
+   - կունենա getter բոլոր ատրիբուտների համար,
+   - միայն սերիայի համարի և գնահատականի համար կունենա նաև setter,
+   - միայն գնահատականի համար կունենա նաև deleter, այնպես պետք է ռեալիզացնել, որ գնահատականը ջնջելուց հետո այն նորից սահմանելու հնարավորություն լինի,
+   - կունենա մեթոդներ դերասանների ցանկը թարմացնելու համար (լիստից անուն ջնջել, լիստում անուն ավելացնել),
+   - կունենա մեթոդ, որը կվերադարձնի սերիալի մասին ամբողջ ինֆորմացիան։
+
+class MyShows:
+    def __init__(self, name: str, platform: str, year_released: int, cast: list,
+                 episode=0, score=None):
+        if self.isvalid_name(name) and self.isvalid_platform(platform) and self.isvalid_year(year_released) \
+                and self.isvalid_episode(episode) and self.isvalid_score(score) and self.isvalid_cast(cast):
+            self.__name = name                # private attributes
+            self.__platform = platform
+            self.__year_released = year_released
+            self.__episode = episode
+            self.__score = score
+            self.__cast = cast
+        else:
+            raise Exception("Invalid parameters")
+
+    @staticmethod
+    def isvalid_name(name):
+        return isinstance(name, str)
+
+    @staticmethod
+    def isvalid_platform(platform):
+        return isinstance(platform, str)
+
+    @staticmethod
+    def isvalid_year(year_released):
+        return isinstance(year_released, int)
+
+    @staticmethod
+    def isvalid_episode(episode):
+        return isinstance(episode, int)
+
+    @staticmethod
+    def isvalid_score(score):
+        return isinstance(score, int) and 1 <= score <= 10
+
+    @staticmethod
+    def isvalid_cast(cast):
+        return isinstance(cast, list) and map(lambda x: len(x) == 2 and isinstance(x, str), cast)
+
+    def name(self):
+        print("Get movie name: ", end='')
+        return self.__name
+
+    def platform(self):
+        print("Get Platform: ", end='')
+        return self.__platform
+
+    def year_released(self):
+        print("Got Released: ", end='')
+        return self.__year_released
+
+    @property
+    def episode(self):
+        print("Get Episode: ", end='')
+        return self.__episode
+
+    @property
+    def score(self):
+        print("Get Score: ", end='')
+        return self.__score
+
+    def cast(self):
+        print("Get Cast: ", end='')
+        return self.__cast
+
+    @episode.setter
+    def episode(self, number):
+        print(f'Set Episode: {number}')
+        self.__episode = number
+
+    @score.setter
+    def score(self, value):
+        print(f'Set Score: {value}')
+        self.__score = value
+
+    @score.deleter
+    def score(self, new_score=None):
+        print('Delete Score')
+        del self.__score
+        if new_score:
+            self.__score = new_score
+        else:
+            raise Exception("Wrong Input")
+
+
+    def new_cast(self, new):
+        n = ''
+        for i in self.__cast:
+            if isinstance(new, list):
+                self.__cast.remove(i)
+                new.append(n)
+                new.remove(n)
+                print(new)
+            else:
+                raise Exception("Wrong Input")
+
+    def information(self):
+        return f"Show: {self.__name} \nPlatform: {self.__platform} \nRelease: {self.__year_released} " \
+               f"\nEpisode: {self.__episode} \nScore: {self.__score} \nCast: {self.__cast}"
+
+
+m = MyShows('Rainbow', 'Bili TV', 2021, ['Jia Ying', 'Mark Doll'], 1, 9)
+print(m.__dict__)
+print(m._MyShows__platform)
+print(m.information())
+print(m.new_cast(["Day Martin", "Lola Key"]))
+print(m.episode)
+print(m.name())
+print(m.platform())
+print(m.score)
+print(m.year_released())
+print(m.cast())
+m.episode = 4
+m.score = 8
+# print(m.episode)
+# print(m.score)
+del m.score
+print(m.__dict__)
+m.score(7)
+
