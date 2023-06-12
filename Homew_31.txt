@@ -1,0 +1,155 @@
+1․ Գրել Calculator class, որը․
+   - __init__ ում կստանա թիվ և կստուգի այդ թվի int կամ float լինելը, հակառակ դեպքում կվերադարձնի Error,
+   - կունենա միայն getter մեթոդ տրված թիվը ստանալու համար, իսկ այդ թիվը կլինի private,
+   - կունենա համապատասխան magic մեթոդներ հետևյալ գործողությունների համար (+, -, *, /, //, %, **),
+   - կունենա համապատասխան magic մեթոդներ հետևյալ գործողությունների համար (+=, -=, *=, /=, //=, %=, **=),
+   - կունենա համապատասխան magic մեթոդներ հետևյալ գործողությունների համար (==, >, >=, <, <=, !=),
+   - վերոնշյալ մեթոդները ռեալիզացված կլինեն այնպես, որ աշխատեն նաև Calculator կլասի երկու օբյեկտների համար,
+   - կունենա համապատասխան magic մեթոդներ, որոնք թույլ կտան օբյեկտը տպելուց․ ստանալ թիվը (__str__), ստանալ թիվը և թվի տիպը (__repr__)։
+
+
+class Calculator:
+    def __init__(self, number):
+        if isinstance(number, (int, float)):
+            self.__number = number
+        else:
+            raise Exception('Invalid number')
+
+    @property
+    def number(self):
+        print("The number is: ", end='')
+        return self.__number
+
+    def __add__(self, other):
+        if isinstance(other, (int, float)):
+            return self.__number + other
+        else:
+            raise Exception('Invalid numbers')
+
+    def __sub__(self, other):
+        if isinstance(other, (int, float)):
+            return self.__number - other
+        else:
+            raise Exception('Invalid numbers')
+
+    def __mul__(self, other):
+        if isinstance(other, (int, float)):
+            return self.__number * other
+        else:
+            raise Exception('Invalid numbers')
+
+    def __truediv__(self, other):
+        if isinstance(other, (int, float)) and other != 0:
+            return self.__number / other
+        else:
+            raise Exception('Invalid numbers')
+
+    def __floordiv__(self, other):
+        if isinstance(other, (int, float)) and other != 0:
+            return self.__number // other
+        else:
+            raise Exception('Invalid numbers')
+
+    def __mod__(self, other):
+        if isinstance(other, (int, float)) and other != 0:
+            return self.__number % other
+        else:
+            raise Exception('Invalid numbers')
+
+    def __pow__(self, other):
+        if isinstance(other, (int, float)):
+            return self.__number ** other
+        else:
+            raise Exception('Invalid numbers')
+
+    def __iadd__(self, other):
+        if isinstance(other, (int, float)):
+            self.__number += other
+        return self
+
+    def __isub__(self, other):
+        if isinstance(other, (int, float)):
+            self.__number -= other
+        return self
+
+    def __imul__(self, other):
+        if isinstance(other, (int, float)):
+            self.__number *= other
+        return self
+
+    def __itruediv__(self, other):
+        if isinstance(other, (int, float)) and other != 0:
+            self.__number /= other
+        return self
+
+    def __ifloordiv__(self, other):
+        if isinstance(other, (int, float)) and other != 0:
+            self.__number //= other
+        return self
+
+    def __imod__(self, other):
+        if isinstance(other, (int, float)) and other != 0:
+            self.__number %= other
+        return self
+
+    def __ipow__(self, other):
+        if isinstance(other, (int, float)):
+            self.__number **= other
+        return self
+
+    def __eq__(self, other):
+        if isinstance(other, (int, float)) and self.__number == other:
+            print('Equal')
+        else:
+            print('Not Equal')
+
+    def __gt__(self, other):
+        if isinstance(other, (int, float)) and self.__number > other:
+            print(f'{self.__number} is greater')
+        else:
+            print(f'{self.__number} is less')
+
+    def __ge__(self, other):
+        if isinstance(other, (int, float)) and self.__number >= other:
+            print(f'{self.__number} is greater or equal')
+        else:
+            print(f'{self.__number} is less or equal')
+
+    def __radd__(self, other):
+        return self + other
+
+    def __rsub__(self, other):
+        return self - other
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __rtruediv__(self, other):
+        return self / other
+
+    def __rfloordiv__(self, other):
+        return self // other
+
+    def __rmod__(self, other):
+        return self % other
+
+    def __rpow__(self, other):
+        return self ** other
+
+    def __repr__(self):
+        return f"{self.__class__}: {self.__number}"
+
+    def __str__(self):
+        return f"{self.__number}"
+
+n = Calculator(4)
+n1 = Calculator(3)
+# print(n)
+# print(str(n))
+# print(repr(n))
+print(n.number)
+m = n + n1
+print(Calculator.__add__(m))
+l= n - n1
+print(Calculator.__sub__(m))
+# print(Calculator.__sub__(m))
